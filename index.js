@@ -16,9 +16,13 @@ for (const [address, claim] of Object.entries(claims)) {
 
 // Define the CSV fields
 const fields = ['address', 'amount'];
+const opts = { fields, quote: '' }; // Disable quoting
 
 // Convert JSON to CSV
-const csv = parse(records, { fields });
+let csv = parse(records, opts);
+
+// Manually remove quotes if any remain
+csv = csv.replace(/\"/g, '');
 
 // Write the CSV to a file
 fs.writeFileSync('output.csv', csv);
